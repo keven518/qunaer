@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>在Vue中同时使用过渡和动画</title>
+    <link rel="stylesheet" type="text/css" href="styles/kv.css" />
+    <style>
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .fade-enter{
+            opacity: 0;
+        }
+        .fade-enter-active{     /*进入时始终存在*/
+            transition: opacity 3s;
+        }
+        .fade-leave-to{
+            opacity: 0;
+        }
+        .fade-leave-active{     /*进入时始终存在*/
+            transition: opacity 3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <transition 
+            :duration='{enter: 5000, leave: 10000}'
+            name='fade' 
+            appear
+            enter-active-class='animated swing fade-enter-active'
+            leave-active-class='animated shake fade-leave-active'
+            appear-active-class='animated swing'
+        >
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleClick">切换</button>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',    // 接管最外层的标签
+            data: {
+                show: true
+            },
+            methods: {
+                handleClick() {
+                    this.show = !this.show
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

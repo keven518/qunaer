@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的js动画与Velocity.js的结合</title>
+    <link rel="stylesheet" type="text/css" href="styles/kv.css" />
+    <style>
+        /* @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .fade-enter{
+            opacity: 0;
+        }
+        .fade-enter-active{     /*进入时始终存在*//*
+            transition: opacity 3s;
+        }
+        .fade-leave-to{
+            opacity: 0;
+        }
+        .fade-leave-active{     /*进入时始终存在*//*
+            transition: opacity 3s;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <transition 
+            name='fade' 
+            @before-enter='handleBeforeEnter'
+            @enter='handleEnter'
+            @after-enter='handleAfterEnter'
+        >
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleClick">toggle</button>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="js/velocity.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',    // 接管最外层的标签
+            data: {
+                show: true
+            },
+            methods: {
+                handleClick() {
+                    this.show = !this.show
+                },
+                handleBeforeEnter(el) {
+                    el.style.opacity = 0
+                },
+                handleEnter(el, done) {
+                    Velocity(el, {opacity: 1}, 
+                    {duration: 1000, complete: done})
+                },
+                handleAfterEnter(el) {
+                    alert('动画结束')
+                    el.style.color='blue'
+                },
+                // handleBeforeLeave(el) {
+                //     el.style.color = 'aqua'
+                // },
+                // handleLeave(el, done) {
+                //     setTimeout(()=>{
+                //         el.style.color='brown'
+                //     }, 2000)
+                //     setTimeout(()=>{
+                //         el.style.color='chartreuse'
+                //     }, 4000)
+                // },
+                // handleAfterLeave(el) {
+                //     el.style.color = 'darkmagenta'
+                // }
+
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

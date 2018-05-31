@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TodoList Jquery</title>
+</head>
+<body>
+    <div id="app">
+        <input id="input" type="text">
+        <button id="btn">提交</button>
+        <ul id="list"></ul>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script>
+        // m,数据层很弱，只有v(dom,视图),p 控制器（可以调ajax，这里没有）
+        // vue中data就是m层， html中模板标签就是v层，操作methods改变数据，视图层随着改变这是vm层
+
+        function Page() {
+
+        }
+
+        $.extend(Page.prototype, {
+            init: function() {
+                this.bindEvents()
+            },
+            bindEvents: function() {
+                var btn = $('#btn');
+                btn.on('click', $.proxy(this.handleBtnClick, this))
+            },
+            handleBtnClick: function() {
+                var inputElem = $('#input');
+                var inputValue = inputElem.val();
+                var ulElem = $('#list');
+                ulElem.append('<li>' + inputValue + '</li>');
+                inputElem.val('')
+            }
+        })
+
+        console.log('kv')
+
+        var page = new Page();
+        page.init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中使用插槽</title>
+</head>
+
+<body>
+    <div id="app">
+        <body-content>
+            <div slot='header'>header</div>     <!--具名插槽 -->
+            <div slot='footer'>footer</div>
+            <div slot='header'>adsf adfasfd</div>
+        </body-content>
+        <jsj @click.native='handleClickNative'></jsj>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.prototype.bus = new Vue();
+        
+        Vue.component('body-content', {
+            data(){
+                return {
+                    selfContent: this.content
+                }
+            },
+            props: {
+                content: String
+            },
+            template: `<div>
+                         <slot name='header'></slot>
+                         <p class='content'>content</p>
+                         <slot name='footer'></slot>
+                      </div>`,
+            methods: {
+                handleChildClick: function () {
+                    console.log('this.selfContent: ', this.selfContent)
+                    this.bus.$emit('change', this.selfContent)
+                },
+            },
+            mounted() {
+                var _this = this
+                this.bus.$on('change', function(msg) {
+                    _this.selfContent = msg
+                })
+            }
+        })
+
+        Vue.component('jsj', {
+            template: '<div>你好</div>'
+        })
+
+        // 生命周期函数就是vue实例在某一个时间点会自动执行的函数
+        var app = new Vue({
+            el: '#app',    // 接管最外层的标签
+            data: {
+                total: 5
+            },
+            methods: {
+                handleClick: function () {
+                    console.log('click')
+                },
+                handleChange(){
+                    console.log('this.$refs.one: ', this.$refs.one)
+                    console.log('this.$refs.tow: ', this.$refs.tow)
+                    this.total = this.$refs.one.num + this.$refs.tow.num
+                },
+                handleIncrease(step){
+                    this.total += step;
+                },
+                handleClickNative(){
+                    console.log('handleClickNative')
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

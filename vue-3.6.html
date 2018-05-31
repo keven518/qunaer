@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的样式绑定</title>
+    <style>
+    .activated{
+        color: #900;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!--isActivated 为false的时候就没有activated样式，否则就有-->
+        <div @click='handleClick'
+             :class="{activated: isActivated}"
+        >Hello world</div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 生命周期函数就是vue实例在某一个时间点会自动执行的函数
+        var app = new Vue({
+            el: '#app',    // 接管最外层的标签
+            data: {
+                firstName: 'keven',
+                lastName: 'lisa',
+                age: 28,
+                isActivated: false,
+                city: ''
+            },
+            // beforeCreate () {
+            //     // vue实例的挂载元素$el和数据对象data都为undefined，还未初始化
+            //     console.log('beforeCreate')
+            //     console.log('$el: ', this.$el)
+            //     console.log('$data: ', this.$data)
+            // },
+            // created () {
+            //     // vue实例的数据对象data有了，$el还没有
+            //     console.log('created')
+            //     console.log('$el: ', this.$el)
+            //     console.log('$data: ', this.$data)
+            //     this.city = '上海'
+            // },
+            // beforeMount() {
+            //     // vue实例的$el和data都初始化了，但还是挂载之前为虚拟的dom节点，data.message还未替换。
+            //     console.log('beforeMount')
+            //     console.log('$el: ', this.$el)
+            //     alert('beforeMount');
+            //     console.log('$data: ', this.$data)
+            // },
+            // mounted() {
+            //     // 在mounted阶段，vue实例挂载完成，data.message成功渲染。
+            //     alert('mounted');
+            //     console.log('mounted')
+            //     console.log('$el: ', this.$el)
+            // },
+            // beforeUpdate() {
+            //     console.log('beforeUpdate')
+            //     console.log('$el: ', this.$el)
+            // },
+            // updated() {
+            //     console.log('updated')
+            //     console.log('$el: ', this.$el)
+            // },
+            // beforeDestroy() {
+            //     console.log('beforeDestroy')
+            // },
+            // destroyed() {
+            //     // 在执行destroy方法后，对data的改变不会再触发周期函数，说明此时vue实例已经解除了事件监听以及和dom的绑定，但是dom结构依然存在
+            //     console.log('destroyed')
+            // },
+            computed: {
+                fullName: {
+                    get() {
+                        console.log('get重新执行')
+                        return this.firstName + 'get-520' + this.lastName;
+                    },
+                    set(v) {
+                        console.log('set重新执行')
+                        console.log('v: ', v)
+                    }
+                }
+            },
+            methods: {
+                handleClick: function () {
+                    alert('kv');
+                    this.isActivated = !this.isActivated;
+                },
+            },
+            watch: {
+                
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

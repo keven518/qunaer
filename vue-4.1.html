@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue组件使用中的细节点</title>
+</head>
+
+<body>
+    <div id="app">
+        <table>
+            <tbody>
+                <tr is='row'></tr>
+                <tr is='row'></tr>
+                <tr is='row'></tr>
+            </tbody>
+        </table>
+        <div 
+            ref='hello' 
+            @click='handleClick'
+        >
+            hello world
+        </div>
+        <counter ref='one' @change='handleChange'></counter>
+        <counter ref='tow' @change='handleChange'></counter>
+        <div>{{total}}</div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 组件实例
+        Vue.component('row', {
+            data(){
+                return {
+                    content: 'this is a row'
+                }
+            },
+            template: '<tr><td>{{content}}</td></tr>'
+        })
+        Vue.component('counter', {
+            template: '<div @click="handleCounterClick">{{num}}</div>',
+            data() {
+                return{
+                    num: 0
+                }
+            },
+            methods: {
+                handleCounterClick() {
+                    this.num ++
+                    this.$emit('change')
+                }
+            }
+
+        })
+        // 生命周期函数就是vue实例在某一个时间点会自动执行的函数
+        var app = new Vue({
+            el: '#app',    // 接管最外层的标签
+            data: {
+                message: 'hello world - 888',                
+                total: 0
+            },
+            // beforeCreate () {
+            //     // vue实例的挂载元素$el和数据对象data都为undefined，还未初始化
+            //     console.log('beforeCreate')
+            //     console.log('$el: ', this.$el)
+            //     console.log('$data: ', this.$data)
+            // },
+            // created () {
+            //     // vue实例的数据对象data有了，$el还没有
+            //     console.log('created')
+            //     console.log('$el: ', this.$el)
+            //     console.log('$data: ', this.$data)
+            // },
+            // beforeMount() {
+            //     // vue实例的$el和data都初始化了，但还是挂载之前为虚拟的dom节点，data.message还未替换。
+            //     console.log('beforeMount')
+            //     console.log('$el: ', this.$el)
+            //     alert('beforeMount');
+            //     console.log('$data: ', this.$data)
+            // },
+            // mounted() {
+            //     // 在mounted阶段，vue实例挂载完成，data.message成功渲染。
+            //     alert('mounted');
+            //     console.log('mounted')
+            //     console.log('$el: ', this.$el)
+            // },
+            // beforeUpdate() {
+            //     console.log('beforeUpdate')
+            //     console.log('$el: ', this.$el)
+            // },
+            // updated() {
+            //     console.log('updated')
+            //     console.log('$el: ', this.$el)
+            // },
+            // beforeDestroy() {
+            //     console.log('beforeDestroy')
+            // },
+            // destroyed() {
+            //     // 在执行destroy方法后，对data的改变不会再触发周期函数，说明此时vue实例已经解除了事件监听以及和dom的绑定，但是dom结构依然存在
+            //     console.log('destroyed')
+            // },
+            methods: {
+                handleClick: function () {
+                    console.log('this.$refs.hello: ',this.$refs.hello.innerHTML)
+                },
+                handleChange(){
+                    console.log('this.$refs.one: ', this.$refs.one)
+                    console.log('this.$refs.tow: ', this.$refs.tow)
+                    this.total = this.$refs.one.num + this.$refs.tow.num
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

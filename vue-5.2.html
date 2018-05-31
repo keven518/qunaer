@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的使用animate.css库</title>
+    <link rel="stylesheet" type="text/css" href="styles/kv.css" />
+    <style>
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .active{     /*进入时始终存在*/
+            transform-origin: left center; 
+            animation: bounce-in 1s;
+        }
+        .leave {    /*离开时始终存在*/
+            transform-origin: left center; 
+            animation: bounce-in 1s reverse;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <transition 
+            name='fade' 
+            enter-active-class='animated swing'
+            leave-active-class='animated shake'
+        >
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleClick">切换</button>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',    // 接管最外层的标签
+            data: {
+                show: true
+            },
+            methods: {
+                handleClick() {
+                    this.show = !this.show
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

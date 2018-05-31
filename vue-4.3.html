@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue组件参数校验与非Props特性</title>
+</head>
+
+<body>
+    <div id="app">
+        <child content='你好柯文 你在干嘛呢？'></child>
+        <child content='你好蔡曼曼 你在干嘛呢？'></child>
+        <child></child>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        
+        Vue.component('child', {
+            props: {
+                // content: [String, Number]
+                content: {
+                    type: String,
+                    required: false,  //true 必须的, 非必传
+                    default: 'kewen hello',
+                    validator(v) {// 校验器
+                        if(v.length<5){
+                            alert(0)
+                        }
+                        return v.length>5
+                    }
+                }
+            },
+            data() {
+                return {
+                }
+            },
+            template: '<div>{{content}}</div>',
+            methods: {
+                handleClick() {
+                    this.number ++ ;
+                    this.$emit('inc', 1)
+                }
+            }
+        })
+
+        // 生命周期函数就是vue实例在某一个时间点会自动执行的函数
+        var app = new Vue({
+            el: '#app',    // 接管最外层的标签
+            data: {
+                total: 5
+            },
+            methods: {
+                handleClick: function () {
+                    console.log('this.$refs.hello: ',this.$refs.hello.innerHTML)
+                },
+                handleChange(){
+                    console.log('this.$refs.one: ', this.$refs.one)
+                    console.log('this.$refs.tow: ', this.$refs.tow)
+                    this.total = this.$refs.one.num + this.$refs.tow.num
+                },
+                handleIncrease(step){
+                    this.total += step;
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>
